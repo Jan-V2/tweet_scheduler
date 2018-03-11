@@ -1,12 +1,26 @@
 extends layout
 
 block content
-    h1 Tweet scheduler
-    textarea(maxlength=280 rows=4 cols=75 class="tweet_text_input")
-    div
-        button(id="add_image" ) add image
-        button(id="submit" ) submit
-    script(src="/javascripts/libs/jquery-3.3.1.min.js")
+    link(rel='stylesheet', href='/stylesheets/timepicki.css')
+    script(src="/javascripts/libs/jquery-3.3.1.min.js")differentlypt(src="/javascripts/libs/timepicki.js")
     script(src="/javascripts/libs/lodash.min.js")
     script(src="/javascripts/libs/my_utils.js")
-    script(src="/javascripts/main.js")
+
+
+    h1 Tweet scheduler
+    textarea(maxlength=280 rows=4 cols=75 id="tweet_text_input" class="no_resize")
+    div
+        span(id="char_count") 0 characters
+    div
+        input(type="submit" value="submit")
+        button(id="picker_clear") Reset images
+        input(type="file" id="filepicker" multiple=true max=4 accept="image/*")
+    div(id="datetime_picker")
+        input(type="date" id="date-format")
+        input(id='timepicker' type='text' name='timepicker')
+
+    script(src="/javascripts/client.js")
+
+
+
+

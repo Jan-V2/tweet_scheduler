@@ -1,8 +1,12 @@
+☐ investigate wheter a post request is the smart way to do add the tweet.
+
 client side:
 ☐ Add validations for the tweet.
-☐ Make it so you can upload an image.
-☐ Make it so there is a character limit thats gets modified by uploading images.
+✔ Make it so you can upload an image. @done(2018-03-12 00:29)
+✔ Make it so there is a character limit thats gets modified by uploading images. @done(2018-03-12 00:29)
+    turns out that uploading images doesn't affect the character limit
 ☐ Make the webpage where you can view the scheduled tweets.
+☐ add preloading for the timepicki arrows.
 server side:
-  ☐ Make it so i can recieve the images and store them with the text.
+  ✔ Make it so i can recieve the images and store them with the text. @done(2018-03-12 00:30) @project(server side)
   ☐ Make the api used by the viewing webpage.

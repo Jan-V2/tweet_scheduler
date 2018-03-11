@@ -7,7 +7,7 @@ a {
   color: #00B7FF;
 }
 
-textarea.tweet_text_input
+textarea.no_resize
 {
  resize: none;
 }

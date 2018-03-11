@@ -24,3 +24,11 @@ function iterate_through_2d_array(func) {
         }
     }
 }
+
+let preloaded_images = [];
+function preload_img() {
+    for (let i = 0; i < arguments.length; i++) {
+        preloaded_images[i] = new Image();
+        preloaded_images[i].src = preload_img.arguments[i];
+    }
+}
