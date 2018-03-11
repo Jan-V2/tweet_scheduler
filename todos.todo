@@ -1,0 +1,8 @@
+client side:
+☐ Add validations for the tweet.
+☐ Make it so you can upload an image.
+☐ Make it so there is a character limit thats gets modified by uploading images.
+☐ Make the webpage where you can view the scheduled tweets.
+server side:
+  ☐ Make it so i can recieve the images and store them with the text.
+  ☐ Make the api used by the viewing webpage.
