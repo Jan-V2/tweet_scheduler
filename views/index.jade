@@ -2,11 +2,8 @@ extends layout
 
 block content
     link(rel='stylesheet', href='/stylesheets/timepicki.css')
-    script(src="/javascripts/libs/jquery-3.3.1.min.js")
+    link(rel='stylesheet', href='/stylesheets/index.css')
     script(src="/javascripts/libs/timepicki.js")
-    script(src="/javascripts/libs/lodash.min.js")
-    script(src="/javascripts/libs/my_utils.js")
-
 
     h1 Tweet scheduler
     textarea(maxlength=280 rows=4 cols=75 id="tweet_text_input" class="no_resize")
@@ -17,11 +14,12 @@ block content
         button(id="picker_clear") Reset images
         input(type="file" id="filepicker" multiple=true max=4 accept="image/*")
     div(id="datetime_picker")
-        input(type="date" id="date-format")
-        input(id='timepicker' type='text' name='timepicker')
+        div
+            input(type="date" id="date-picker" min='2018-01-01')
+        input(id='timepicker' type='text' name='timepicker' size=1 class="centeralign")
+    button(id="but") test
+    div
+        a(href="/tweets") Goto tweets
 
     script(src="/javascripts/client.js")
-
-
-
 

@@ -4,13 +4,20 @@ let text_area = $("textarea#tweet_text_input");
 let char_counter = $("span#char_count");
 let filepicker = $('input#filepicker')[0];
 let picker_clear_button = $("button#picker_clear");
-let datetime_picker_div = $("div#datetime_picker")[0];
-let fr = new FileReader();
+let datapicker = $("input[type=date]");
+let timepicker = $('#timepicker');
 
+let test = $("button#but");//for testing
+
+
+let fr = new FileReader();
+let today;
 let max_imgs = 4;
 let loaded_image = null;
 const image_url_length = 0;
 const max_chars = 280;
+
+//one line funcs
 const get_charcounter_text = () => {return text_area.val().length +  "/"+ max_chars + " characters"};
 const clear_filepicker = () => {filepicker.value = ""; picker_clear_button.hide()};
 
@@ -20,73 +27,128 @@ function init() {
     text_area.val("");
     char_counter.text(get_charcounter_text());
     clear_filepicker();
-    $('#timepicker').timepicki({
-        show_meridian:false,
-        overflow_minutes:true,
-        disable_keyboard_mobile: true,
-        step_size_minutes:10});
+    init_date_and_time_pickers();
 }
 init();
 
+
+function init_date_and_time_pickers() {
+    let d = new Date();
+    timepicker.timepicki({
+        show_meridian:false,
+        min_hour_value:0,
+        max_hour_value:23,
+        overflow_minutes:true,
+        disable_keyboard_mobile: true,
+        step_size_minutes:10,
+    });
+    //preloads the time pickers arrows
+    preload_img("../images/top_arr.png","../images/bot_arr.png");
+    set_date_min();
+
+    function set_date_min() {
+        let _today = new Date();
+        let dd = _today.getDate();
+        let mm = _today.getMonth()+1; //January is 0!
+        let yyyy = _today.getFullYear();
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        _today = yyyy+'-'+mm+'-'+dd;
+        today = _today;
+        document.getElementById("date-picker").setAttribute("min", today);
+    }
+}
+
+
 $("document").ready(() => {
 
-    picker_clear_button.click((e) => {
-        clear_filepicker()
+    test.click((e) => {
+        console.log(datapicker[0].value + "_" + timepicker[0].value.replace(":", "-"));
     });
+
+
+    picker_clear_button.click((e) => {clear_filepicker()});
+    text_area.bind('input propertychange', function () {char_counter.text(get_charcounter_text())});
 
     $("#filepicker").change(function() {
-        if (filepicker.files.length > 0){
-            console.log("Test");
-            picker_clear_button.show()
-        }
-    });
-
-    text_area.bind('input propertychange', function () {
-        char_counter.text(get_charcounter_text());
-    });
-
-    $(() => {//This checks if there are less than max n of preloaded_images.
-        submit_button.click(function () {
-            let $fileUpload = $("input[type='file']");
-            let imgs = parseInt($fileUpload[0].files.length);
-            if (imgs > max_imgs) {
-                alert("You can only upload a maximum of " + max_imgs + " files");
-            }
-        });
+        if (filepicker.files.length > 0){picker_clear_button.show()}
     });
 
     submit_button.click((event) => {
         let imgs = Array();
         const img_count = filepicker.files.length;
         let tweet_text = text_area.val();
+        let datetime_str = get_time_str();
 
-        if (img_count > 0 || tweet_text.length > 0) {
-            if (img_count > 0) {
-                load_image(onload_callback, filepicker.files[0]);
-            } else {
-                do_post()
+        function check_image_number() {
+            let $fileUpload = $("input[type='file']");
+            let imgs = parseInt($fileUpload[0].files.length);
+            return imgs <= max_imgs;
+        }
+
+        function get_time_str() {
+            let time = timepicker[0].value;
+            let date = datapicker[0].value;
+            if (time !== "" && date !== "" ){
+                return date  + "_" + time.replace(":", "-");
+            }else{
+                return null
             }
         }
 
-        function do_post() {
-            let data = {
-                text: tweet_text,
-                datetime: new Date().getTime(),
-                img_count: img_count
-            };
+        function check_time_bounds() {
+            if (datapicker[0].value === today){
+                let _alert = () => {};
+                let d = new Date();
+                let h = d.getHours();
+                let m = d.getMinutes();
+                let input = timepicker[0].value.split(":");
 
-            if (img_count > 0) {
-                for (let i in _.range(img_count)) {
-                    // noinspection JSUnfilteredForInLoop
-                    data["img" + i] = imgs[i]
+                if(+ input[0] < h){
+                    return +input[1] >= m;
+                }else {
+                    return false
                 }
-                console.log();
+            }else{
+                return true
             }
-            $.post("/submit",
-                data,
-                function (data, status) {
-                    console.log("tweet submitted")
-                });
+        }
+
+        if (datetime_str !== null) {
+            if (img_count > 0 || tweet_text.length > 0) {
+                if (check_image_number()){
+                    if (check_time_bounds()) {
+                        if (img_count > 0) {
+                            load_image(filepicker.files[0]);
+                        } else {do_post()}
+                    }else{alert("The scheduled time has to be after the current time.")}
+                } else{alert("You can only upload a maximum of " + max_imgs + " files")}
+            } else {alert("You need to have a tweet, before you can submit it.")}
+        } else {alert("Time or date not found please add a time/date")}
+
+        function do_post() {
+                let data = {
+                    text: tweet_text,
+                    datetime: datetime_str,
+                    img_count: img_count
+                };
+
+                if (img_count > 0) {
+                    for (let i in _.range(img_count)) {
+                        // noinspection JSUnfilteredForInLoop
+                        data["img" + i] = imgs[i]
+                    }
+                }
+                $.post("/submit",
+                    data,
+                    function (data, status) {
+                        alert(data)
+                    });
         }
 
         function onload_callback(e) {
@@ -94,12 +156,11 @@ $("document").ready(() => {
             if (imgs.length >= img_count) {
                 do_post()
             } else {
-                load_image(onload_callback, filepicker.files[imgs.length])
+                load_image(filepicker.files[imgs.length])
             }
         }
 
-        function load_image(onload_callback, file) {
-            console.log("test");
+        function load_image(file) {
             if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
                 alert('The File APIs are not fully supported in this browser.');
                 return;

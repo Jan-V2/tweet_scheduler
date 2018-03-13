@@ -1,12 +1,17 @@
 ☐ investigate wheter a post request is the smart way to do add the tweet.
 
 client side:
-☐ Add validations for the tweet.
-✔ Make it so you can upload an image. @done(2018-03-12 00:29)
-✔ Make it so there is a character limit thats gets modified by uploading images. @done(2018-03-12 00:29)
-    turns out that uploading images doesn't affect the character limit
-☐ Make the webpage where you can view the scheduled tweets.
-☐ add preloading for the timepicki arrows.
+  index:
+    ☐ Add validations for the tweet.
+    ✔ Make it so you can upload an image. @done(2018-03-12 00:29)
+    ✔ Make it so there is a character limit thats gets modified by uploading images. @done(2018-03-12 00:29)
+      turns out that uploading images doesn't affect the character limit
+      ☐ Make the webpage where you can view the scheduled tweets.
+    ✔ add preloading for the timepicki arrows. @done(2018-03-12 11:59)
+    ☐ Figure out how to put the time and date picker next to each other.
+    ☐ Add min and max to time and date fields
+    ☐ Make it so the textarea is like twitter, where you can go over the char limit but i shows it in red.
 server side:
   ✔ Make it so i can recieve the images and store them with the text. @done(2018-03-12 00:30) @project(server side)
   ☐ Make the api used by the viewing webpage.
+  ☐ Add serverside validation.

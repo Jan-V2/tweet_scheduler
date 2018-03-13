@@ -1,0 +1,9 @@
+textarea.no_resize
+{
+    resize: none;
+}
+
+input.centeralign
+{
+    text-align: center;
+}

@@ -34,8 +34,6 @@
 			        if (mini < 10)
 			            mini = "0" + mini;
 
-			        mini = Math.min(Math.max(parseInt(mini), 0), 59);
-
 					return tim + ":" + mini;
 				}
 			},
@@ -339,6 +337,7 @@
 					// next time the picker is opened
 					ele.attr('data-timepicki-tim', tim);
 					ele.attr('data-timepicki-mini', mini);
+
 					
 					if(settings.show_meridian){
 						ele.attr('data-timepicki-meri', meri);
