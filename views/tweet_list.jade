@@ -1,6 +1,18 @@
 extends layout
 
+
 block content
-    p some text
-    div
-        a(href="/") Goto submit tweet
+    a(href="/") Goto add tweets.
+    ul
+        for tweet in tweets
+            div
+                - let txt = tweet["txt"]
+                - console.log(txt);
+                p #{txt}
+                - for (let i = 0; i < tweet["img_count"]; ++i) {
+                - let img_name = "img" + i;
+                - let source =  tweet[img_name];
+                img(id=img_name src=source  height="150")
+                -}
+        else
+            li sorry, no saved tweets!

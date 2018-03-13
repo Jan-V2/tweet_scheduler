@@ -1,6 +1,7 @@
 ☐ investigate wheter a post request is the smart way to do add the tweet.
 
 client side:
+  ☐ use some sort of materialize template or something to make it not look completely hideous.
   index:
     ☐ Add validations for the tweet.
     ✔ Make it so you can upload an image. @done(2018-03-12 00:29)
@@ -11,7 +12,12 @@ client side:
     ☐ Figure out how to put the time and date picker next to each other.
     ☐ Add min and max to time and date fields
     ☐ Make it so the textarea is like twitter, where you can go over the char limit but i shows it in red.
+  tweet viewer:
+    ☐ add padding inbetween the tweets.
+    ☐ show the date above the tweet with an approxamate timestamp thing.
 server side:
   ✔ Make it so i can recieve the images and store them with the text. @done(2018-03-12 00:30) @project(server side)
   ☐ Make the api used by the viewing webpage.
   ☐ Add serverside validation.
+  ☐ Figure out a way to load the tweet text files async if that is nessasairy.
+  ☐ Clean up the code that loads the tweets from from disk and turns them into objects.

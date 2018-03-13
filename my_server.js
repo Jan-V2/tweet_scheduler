@@ -1,7 +1,7 @@
 let fs = require('fs');
 let _ = require("lodash");
 
-let base_dir = __dirname+"/saved_tweets/";
+let base_dir = __dirname+"/public/saved_tweets/";
 
 function run(app) {
     app.post("/submit", (req, res) => {
@@ -18,7 +18,8 @@ function run(app) {
             let img_data_decoded = img_data.replace(clean_image_regex, "");
 
             fs.writeFile(save_dir + "img"+idx+"." + img_type, img_data_decoded ,"base64" ,(err) => {
-                if(err) {return console.log(err);}})
+                if(err) {return console.log(err);}});
+            console.log("saved image");
         };
 
         for (let i in _.range(data.img_count)){
