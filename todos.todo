@@ -1,4 +1,5 @@
-☐ investigate wheter a post request is the smart way to do add the tweet.
+✘ investigate wheter a post request is the smart way to do add the tweet. @cancelled(2018-03-14 19:10)
+    probably doesn't matter. Besides i use the reponse to tell the client the status of the req.
 
 client side:
   ☐ use some sort of materialize template or something to make it not look completely hideous.
@@ -7,17 +8,33 @@ client side:
     ✔ Make it so you can upload an image. @done(2018-03-12 00:29)
     ✔ Make it so there is a character limit thats gets modified by uploading images. @done(2018-03-12 00:29)
       turns out that uploading images doesn't affect the character limit
-      ☐ Make the webpage where you can view the scheduled tweets.
+    ✔ Make the webpage where you can view the scheduled tweets. @done(2018-03-14 23:04) @project(client side / index)
     ✔ add preloading for the timepicki arrows. @done(2018-03-12 11:59)
     ☐ Figure out how to put the time and date picker next to each other.
-    ☐ Add min and max to time and date fields
+    ✔ Add min and max to time and date fields @done(2018-03-14 23:04) @project(client side / index)
     ☐ Make it so the textarea is like twitter, where you can go over the char limit but i shows it in red.
+    ✔ add delete button. @done(2018-03-14 23:04) @project(client side / index)
+    ✔ clear fields upon sucsessfull submission. @done(2018-03-14 23:04) @project(client side / index)
   tweet viewer:
-    ☐ add padding inbetween the tweets.
-    ☐ show the date above the tweet with an approxamate timestamp thing.
+    ☐ Add a p that just shows the date when the tweet will be send. So not just the time until thing.
+    ☐ Add a thing where you can change the date after a tweet has been added.
+    ✔ add padding inbetween the tweets. @done(2018-03-14 14:37) @project(client side / tweet viewer)
+    ✔ show the date above the tweet with an approxamate timestamp thing. @done(2018-03-14 19:10) @project(client side / tweet viewer)
+    ☐
 server side:
+  ☐ Either add a system to handle multible years of make it so you can't submit tweets more than one year ahead.
+  ☐ Add checking for double dirs, or a system for handling that like a random identifier.
   ✔ Make it so i can recieve the images and store them with the text. @done(2018-03-12 00:30) @project(server side)
-  ☐ Make the api used by the viewing webpage.
+  ✔ Make the api used by the viewing webpage. @done(2018-03-14 14:37) @project(server side)
   ☐ Add serverside validation.
-  ☐ Figure out a way to load the tweet text files async if that is nessasairy.
+  ✘ Figure out a way to load the tweet text files async if that is nessasairy. @cancelled(2018-03-14 23:03) @project(server side)
+      Automatic caching makes this unnessasary for now.
   ☐ Clean up the code that loads the tweets from from disk and turns them into objects.
+  ☐ Investigate what is causing some tweets to save as empty directories.
+  ☐ Make is so does the thing with the cronjob.
+
+script:
+  ☐ add a commandline option that allows you to pick wheter to delete the files or not.
+  ☐ Adapt the script so it can tweet with images.
+  ☐ Add a commandline option that counts down years.
+  ☐ Add in the thing that removes the line from the cronjob.

@@ -2,10 +2,12 @@ doctype html
 html
   head
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+  body(style="background-color:hsl(204, 30%, 60%)" )
     script(src="/javascripts/libs/jquery-3.3.1.min.js")
     script(src="/javascripts/libs/lodash.min.js")
     script(src="/javascripts/libs/my_utils.js")
-    block content
+    div(align="center" )
+        div(id="main_div")
+            block content
 
 

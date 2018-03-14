@@ -10,7 +10,10 @@ function get_dir_list(path) {
     return getDirectories(path)
 }
 
+function get_top_dir(path) {return path.match(/[\/]([^\/]+$)/)[1]}
+
 module.exports = {
     get_parent_dir: get_parent_dir,
-    get_dir_list: get_dir_list
+    get_dir_list: get_dir_list,
+    get_top_dir: get_top_dir
 };

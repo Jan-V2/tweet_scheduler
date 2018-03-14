@@ -34,6 +34,8 @@ init();
 
 function init_date_and_time_pickers() {
     let d = new Date();
+    timepicker.val(d.getHours() + ":" + d.getMinutes());
+    datapicker.val("");
     timepicker.timepicki({
         show_meridian:false,
         min_hour_value:0,
@@ -66,6 +68,11 @@ function init_date_and_time_pickers() {
 
 
 $("document").ready(() => {
+
+
+    $("div#main_div").css({
+        'width': (text_area.width() + 'px')
+    });
 
     test.click((e) => {
         console.log(datapicker[0].value + "_" + timepicker[0].value.replace(":", "-"));
@@ -132,23 +139,28 @@ $("document").ready(() => {
         } else {alert("Time or date not found please add a time/date")}
 
         function do_post() {
-                let data = {
-                    text: tweet_text,
-                    datetime: datetime_str,
-                    img_count: img_count
-                };
+            let data = {
+                text: tweet_text,
+                datetime: datetime_str,
+                img_count: img_count
+            };
 
-                if (img_count > 0) {
-                    for (let i in _.range(img_count)) {
-                        // noinspection JSUnfilteredForInLoop
-                        data["img" + i] = imgs[i]
-                    }
+            if (img_count > 0) {
+                for (let i in _.range(img_count)) {
+                    // noinspection JSUnfilteredForInLoop
+                    data["img" + i] = imgs[i]
                 }
-                $.post("/submit",
-                    data,
-                    function (data, status) {
-                        alert(data)
-                    });
+            }
+            $.post("/submit",
+                data,
+                function (data, status) {
+                    if (data === "Success"){
+                        init();
+                        alert("Successfully added tweet.")
+                    }else{
+                        alert(data);
+                    }
+                });
         }
 
         function onload_callback(e) {

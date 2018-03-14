@@ -2,17 +2,31 @@ extends layout
 
 
 block content
-    a(href="/") Goto add tweets.
-    ul
-        for tweet in tweets
+    script(src="/javascripts/tweet_view.js")
+    input(type="hidden" id="n_tweets" value=tweets.length)
+    ul(id="tweet_list")
+        - for (var i = 0; i < tweets.length; ++i) {
+        div(style="background-color:hsl(204, 10%, 90%);border-style: solid;border-width: 2px;margin-bottom:4px;width:66%")
+            - let tweet = tweets[i];
+            - let labelid = "timestamp_" + i
+            - let input_id = "timestamp_val_" + i
+            - let dir_label_id = "dir_label_" + i
+            - let secs = tweet["secs"]
+            - let dir = tweet["dir"]
+            - let button_id = "button_" + i
+            p(id= labelid)
+            input(type="hidden" id=input_id value=secs)
+            input(type="hidden" id=dir_label_id value=dir)
+            - let txt = tweet["txt"]
+            p #{txt}
+            - for (let i = 0; i < tweet["img_count"]; ++i) {
+            - let img_name = "img" + i;
+            - let source =  tweet[img_name];
+            img(id=img_name src=source  height="150" hspace="4")
+            -}
             div
-                - let txt = tweet["txt"]
-                - console.log(txt);
-                p #{txt}
-                - for (let i = 0; i < tweet["img_count"]; ++i) {
-                - let img_name = "img" + i;
-                - let source =  tweet[img_name];
-                img(id=img_name src=source  height="150")
-                -}
-        else
-            li sorry, no saved tweets!
+                button(id=button_id style="margin-bottom: 8px") Delete tweet
+        - }
+        //else
+        //    li sorry, no saved tweets!
+    a(href="/" style="color:hsl(0, 90%, 55%)") Goto add tweets.
