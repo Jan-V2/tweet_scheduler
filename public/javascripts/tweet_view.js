@@ -49,6 +49,8 @@ $("document").ready((e) => {
             }}
     });
 
+
+
     let n_tweets = + $("input#n_tweets")[0].value;
     let seconds_per_update = 1;
 
@@ -69,3 +71,4 @@ $("document").ready((e) => {
     update_timestamps();
     let timestamp_updater = setInterval((e) => {update_timestamps()}, seconds_per_update * 1000);
 });
+

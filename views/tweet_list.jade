@@ -27,6 +27,8 @@ block content
             div
                 button(id=button_id style="margin-bottom: 8px") Delete tweet
         - }
+        if tweets.length === 0
+            span sorry, no saved tweets!
         //else
         //    li sorry, no saved tweets!
     a(href="/" style="color:hsl(0, 90%, 55%)") Goto add tweets.

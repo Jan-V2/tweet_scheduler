@@ -18,7 +18,7 @@ router.get('/tweets', function(req, res, next) {
 
     function get_tweets() {
         let tweets = Array();
-          let text_file_name = "text.txt";
+          let text_file_name = "tweet_text.txt";
 
         function datetime_str_to_eta_secs(str) {
             const regex = /(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})/;

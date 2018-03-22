@@ -28,7 +28,7 @@ function run(app) {
             save_image(i);
         }
 
-        fs.writeFile(save_dir + "text.txt" , data.text, function(err) {
+        fs.writeFile(save_dir + "tweet_text.txt" , data.text, function(err) {
             if(err) {return console.log(err);}
         });
         console.log("tweet saved");
