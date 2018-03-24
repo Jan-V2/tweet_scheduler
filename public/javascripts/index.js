@@ -92,6 +92,18 @@ $("document").ready(() => {
         let tweet_text = text_area.val();
         let datetime_str = get_time_str();
 
+        if (datetime_str !== null) {
+            if (img_count > 0 || tweet_text.length > 0) {
+                if (check_image_number()){
+                    if (check_time_bounds()) {
+                        if (img_count > 0) {
+                            load_image(filepicker.files[0]);
+                        } else {do_post()}
+                    }else{alert("The scheduled time has to be after the current time.")}
+                } else{alert("You can only upload a maximum of " + max_imgs + " files")}
+            } else {alert("You need to have a tweet, before you can submit it.")}
+        } else {alert("Time or date not found please add a time/date")}
+
         function check_image_number() {
             let $fileUpload = $("input[type='file']");
             let imgs = parseInt($fileUpload[0].files.length);
@@ -126,17 +138,7 @@ $("document").ready(() => {
             }
         }
 
-        if (datetime_str !== null) {
-            if (img_count > 0 || tweet_text.length > 0) {
-                if (check_image_number()){
-                    if (check_time_bounds()) {
-                        if (img_count > 0) {
-                            load_image(filepicker.files[0]);
-                        } else {do_post()}
-                    }else{alert("The scheduled time has to be after the current time.")}
-                } else{alert("You can only upload a maximum of " + max_imgs + " files")}
-            } else {alert("You need to have a tweet, before you can submit it.")}
-        } else {alert("Time or date not found please add a time/date")}
+
 
         function do_post() {
             let data = {
@@ -154,7 +156,7 @@ $("document").ready(() => {
             $.post("/submit",
                 data,
                 function (data, status) {
-                    if (data === "Success"){
+                    if (data === "ok"){
                         init();
                         alert("Successfully added tweet.")
                     }else{

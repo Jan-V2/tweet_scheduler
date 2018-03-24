@@ -7,7 +7,7 @@ let bodyParser = require('body-parser');
 let fs = require('fs');
 let index = require('./routes/index');
 let users = require('./routes/users');
-let myserver = require("./my_server");
+let myserver = require("./server_src/my_server");
 let app = express();
 
 

@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-let my_utils = require("./../my_node_utils");
+let my_utils = require("../server_src/my_node_utils");
 let _ = require("lodash");
   fs = require("fs");
 
@@ -24,8 +24,8 @@ router.get('/tweets', function(req, res, next) {
             const regex = /(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})/;
             let v = str.match(regex);
             v = v.splice(1 ,v.length -1);
-            let d = new Date(years=v[0], months=v[1] -1, days=v[2], hours=+v[3]+1 , minutes=v[4]);
-            let secs = Math.floor((d - Date.now()) / 1000);
+            let date = new Date(years=v[0], months=v[1] -1, days=v[2], hours=+v[3]+1 , minutes=v[4]);
+            let secs = Math.floor((date - Date.now()) / 1000);
             return (secs > 1) ? secs : 0;
         }
 

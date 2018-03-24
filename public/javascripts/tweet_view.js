@@ -38,11 +38,9 @@ $("document").ready((e) => {
                 $.post("/delete_dir",
                     {dir: dir},
                     function (data, status) {
-                        if (data === "Success") {
-                            console.log("1");
+                        if (data === "ok") {
                             location.reload(true);
                         }else {
-                            console.log("2");
                             alert(data)
                         }
                     });
