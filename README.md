@@ -16,7 +16,7 @@ On this page you can also delete any scheduled tweets.
 First make sure that you that you have installed the following: python 3 or higher, virtualenv, npm
 and make sure that you are on a linux machine, that has cron available.
 
-Also make sure that you have a set of twitter api keys. if you don't can they be accuired [here](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens).
+Also make sure that you have a set of twitter api keys. if you don't have them, get them [here](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens).
 
 Then open up a terminal, in the directory in which you want to install the program and paste the following commands.
 
