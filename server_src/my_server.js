@@ -2,30 +2,46 @@ let fs = require('fs');
 let _ = require("lodash");
 let rimraf = require("rimraf");
 let utils = require("./my_node_utils");
+let helpers = require("./helper_funcs");
 
 let tweets_dir = "/public/saved_tweets/";
-let abs_path_tweets_dir = utils.get_parent_dir(__dirname) + tweets_dir;
+let rootdir = utils.get_parent_dir(__dirname);
+let abs_path_tweets_dir = rootdir + tweets_dir;
+let posting_script_path = rootdir + "/posting_script/post_main.py";
+let posting_script_env_path = rootdir + "/posting_script/venv/bin/python3";
 
 function run(app) {
 
     app.post("/submit", (req, res) => {
         let data = req.body;
-        let save_dir = abs_path_tweets_dir + data.datetime + "/";
-        fs.mkdir(save_dir);
-
+        let datetime_str = data.datetime;
+        let datetime = undefined;
+        try {
+            datetime = helpers.dir_name_to_timestamp(datetime_str);
+        }catch(err) {
+            log.e(err);
+            res.send("Recieved invalid timestamp.")
+        }
         //validation
         if(data.text._length > 280){ res.send("The text of the tweet is longer than the max of 280.")}
-
+        if( datetime <= Date.now()){
+            res.send("Could not save tweet. The scheduled time has to be after the current time.")
+        }
 
         // Saves the tweet
-        for (let i in _.range(data.img_count)){//verify
+        let save_dir = abs_path_tweets_dir + datetime_str + "/";
+        fs.mkdir(save_dir);
+
+        for (let i in _.range(data.img_count)){//todo verify
             save_image(i);
         }
         fs.writeFile(save_dir + "tweet_text.txt" , data.text, function(err) {
             if(err) {return console.log(err);}
         });
 
-        console.log("tweet saved");
+        append_to_cron(get_cronline(datetime, save_dir));
+
+        log.e("tweet saved");
         res.send("ok");
 
 
@@ -55,8 +71,15 @@ function run(app) {
             });
         }
 
+        function get_cronline(datet, path) {
+            let u_id = utils.get_random_aplhanumeric(10);
+            let ret = "";
+            let spc = " ";
+            ret += datet.getMinutes() + spc + datet.getHours() + spc + datet.getDay() + spc + datet.getMonth() + " * ";
+            ret += posting_script_env_path + spc + posting_script_path + spc + path + " -u \"" +u_id + "\" -k -t";
+            return ret;
+        }
     });
-
 
 
     app.post("/delete_dir", (req, res) => {

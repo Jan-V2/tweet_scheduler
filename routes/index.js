@@ -2,8 +2,9 @@ let express = require('express');
 let router = express.Router();
 let my_utils = require("../server_src/my_node_utils");
 let _ = require("lodash");
-  fs = require("fs");
-
+let fs = require("fs");
+let helpers = require("../server_src/helper_funcs");
+let test = require("../public/shared");
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
@@ -21,10 +22,7 @@ router.get('/tweets', function(req, res, next) {
           let text_file_name = "tweet_text.txt";
 
         function datetime_str_to_eta_secs(str) {
-            const regex = /(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})/;
-            let v = str.match(regex);
-            v = v.splice(1 ,v.length -1);
-            let date = new Date(years=v[0], months=v[1] -1, days=v[2], hours=+v[3]+1 , minutes=v[4]);
+            let date = helpers.dir_name_to_timestamp(str);
             let secs = Math.floor((date - Date.now()) / 1000);
             return (secs > 1) ? secs : 0;
         }

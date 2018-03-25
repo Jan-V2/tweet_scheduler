@@ -113,4 +113,4 @@ if __name__ == '__main__':
     if not keep_files:
         shutil.rmtree(path)# not tested
 
-    log("Sucsessfully posted tweet")
+    log("Sucsessfully posted tweet!")

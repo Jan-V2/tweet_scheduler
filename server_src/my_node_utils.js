@@ -16,6 +16,17 @@ function get_top_dir(path) {return path.match(/[\/]([^\/]+$)/)[1]}
 
 //function fun_shell_script(array_of_cmds) {}//todo think of a way to implent this with callabacks
 
+
+function get_random_aplhanumeric(length) {
+    let text = "";
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (let i = 0; i < length; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 function run_shell_cmd(cmd_with_args, callback, err_callback=undefined) {
     if (cmd_with_args===undefined || callback===undefined){
         throw new Error("Not all arguments defined.");
@@ -42,5 +53,6 @@ module.exports = {
     get_parent_dir: get_parent_dir,
     get_dir_list: get_dir_list,
     get_top_dir: get_top_dir,
-    run_shell_cmd: run_shell_cmd
+    run_shell_cmd: run_shell_cmd,
+    get_random_aplhanumeric: get_random_aplhanumeric
 };

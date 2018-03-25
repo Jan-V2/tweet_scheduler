@@ -8,8 +8,14 @@ let fs = require('fs');
 let index = require('./routes/index');
 let users = require('./routes/users');
 let myserver = require("./server_src/my_server");
+let log = require('log-to-file-and-console-node');
+
+process.env.LOG_DIR='/data/linux_projects/js/tweet_scheduler/logs';
+
 let app = express();
 
+
+app.use(logger('combined', {'stream': log.stream}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,6 +52,10 @@ app.use(function(err, req, res, next) {
   console.log(err);
 });
 
-console.log("    Listening on port 3000");
+let port = 3000;
+app.listen(3000);
+
+log.e("    Listening on port "+port);
+
 
 module.exports = app;

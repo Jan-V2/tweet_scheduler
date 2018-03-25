@@ -122,14 +122,19 @@ $("document").ready(() => {
 
         function check_time_bounds() {
             if (datapicker[0].value === today){
-                let _alert = () => {};
                 let d = new Date();
                 let h = d.getHours();
                 let m = d.getMinutes();
                 let input = timepicker[0].value.split(":");
+                let timezone_offset = d.getTimezoneOffset() / -60;
 
-                if(+ input[0] < h){
-                    return +input[1] >= m;
+                console.log(timezone_offset);
+                console.log(h+timezone_offset);
+                if(+ input[0] <= h){
+                    let ret = +input[1] >= m;
+                    console.log(input);
+                    console.log(ret);
+                    return ret
                 }else {
                     return false
                 }
