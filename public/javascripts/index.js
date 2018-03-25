@@ -75,7 +75,7 @@ $("document").ready(() => {
     });
 
     test.click((e) => {
-        console.log(datapicker[0].value + "_" + timepicker[0].value.replace(":", "-"));
+    //    console.log(datapicker[0].value + "_" + timepicker[0].value.replace(":", "-"));
     });
 
 
@@ -83,7 +83,34 @@ $("document").ready(() => {
     text_area.bind('input propertychange', function () {char_counter.text(get_charcounter_text())});
 
     $("#filepicker").change(function() {
-        if (filepicker.files.length > 0){picker_clear_button.show()}
+        let files = filepicker.files.length;
+        if (files > 0){
+            let too_many = () => {alert("Too many files, you can only have 1 gif or 4 images"); clear_filepicker()};
+            if (files > 4){
+                too_many();
+            }else {
+                if (files > 1) {
+                    function check_for_gifs(imgs, i = 0) {
+                        if (imgs.length <= i) {
+                            return true
+                        } else {
+                            if (imgs[i].type === "image/gif") {
+                                return false
+                            } else {
+                                return check_for_gifs(imgs, i + 1)
+                            }
+                        }
+                    }
+                    if (check_for_gifs(filepicker.files)) {
+                        picker_clear_button.show();
+                    } else {
+                        too_many()
+                    }
+                }else{
+                    picker_clear_button.show()
+                }
+            }
+        }
     });
 
     submit_button.click((event) => {

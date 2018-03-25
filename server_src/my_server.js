@@ -10,52 +10,103 @@ let abs_path_tweets_dir = rootdir + tweets_dir;
 let posting_script_path = rootdir + "/posting_script/post_main.py";
 let posting_script_env_path = rootdir + "/posting_script/venv/bin/python3";
 
-function run(app) {
+function run(app, log) {
 
     app.post("/submit", (req, res) => {
+        const img_types = [
+            "png", "jpg",
+            "jpeg", "gif"
+        ];
         let data = req.body;
         let datetime_str = data.datetime;
         let datetime = undefined;
+
+        //validation
         try {
             datetime = helpers.dir_name_to_timestamp(datetime_str);
         }catch(err) {
             log.e(err);
             res.send("Recieved invalid timestamp.")
         }
-        //validation
+
+        // Checks tweet length and timestamp.
         if(data.text._length > 280){ res.send("The text of the tweet is longer than the max of 280.")}
-        if( datetime <= Date.now()){
+        if(datetime <= Date.now()){
             res.send("Could not save tweet. The scheduled time has to be after the current time.")
         }
 
-        // Saves the tweet
-        let save_dir = abs_path_tweets_dir + datetime_str + "/";
-        fs.mkdir(save_dir);
-
-        for (let i in _.range(data.img_count)){//todo verify
-            save_image(i);
+        // Extracts the images (if any) and checks the types
+        let images = get_images();
+        if (!check_image_types(images)){
+            res.send("Wrong file types, you can only have 1 gif or 4 images")
         }
+
+        //creates the save dir
+        let save_dir = abs_path_tweets_dir + datetime_str + "/";
+        try{
+            fs.mkdir(save_dir);
+        } catch(err) {
+            log.e(err);
+            res.send("There is another tweet already scheduled at this time and date.")
+        }
+
+        // Saves the tweet
+        for (let i in _.range(images.length)){
+            save_image(images[i], i);
+        }
+
         fs.writeFile(save_dir + "tweet_text.txt" , data.text, function(err) {
-            if(err) {return console.log(err);}
+            if(err) {return log.e(err);}
         });
 
-        append_to_cron(get_cronline(datetime, save_dir));
+        try{
+            append_to_cron(get_cronline(datetime, save_dir));
+        }catch(err) {
+            log.e(err);
+            res.send("Could not schedule tweet");
+        }
 
-        log.e("tweet saved");
+        log.i("tweet saved ok");
         res.send("ok");
 
+        function get_images() {
+            let imgs = Array();
+            const get_img_type_regex = /image\/(\w+);base64/;
+            const clean_image_regex =  /data:image\/\w+;base64,/;
+            let max_img_count = 4;
+            for (let i in _.range(max_img_count)){
+                let img = data["img" + i];
+                if (img !== undefined){
+                    imgs.push({
+                        data:img.replace(clean_image_regex, ""),
+                        type:img.match(get_img_type_regex)[1]
+                    })
+                }
+            }
+            return imgs;
+        }
 
-        function save_image(idx) {
-            let img_data = data["img" + idx];
-            let get_img_type_regex = /image\/(\w+);base64/;
-            let clean_image_regex =  /data:image\/\w+;base64,/;
+        function check_image_types(images) {
+            // a tweet can only contain 1 gif and up to 4 images. this function checks for that.
+            if (images.length > 0){
+                let found_gif = false;
+                images.forEach((img) => {
+                    if (img_types.indexOf(img.type) > -1){
+                        if (img.type === "gif"){
+                            if (found_gif){
+                                return false;
+                            }else{found_gif = true}
+                        }
+                    }else{return false;}
+                });
+            }
+            return true;
+        }
 
-            let img_type = img_data.match(get_img_type_regex)[1];
-            let img_data_decoded = img_data.replace(clean_image_regex, "");
-
-            fs.writeFile(save_dir + "img"+idx+"." + img_type, img_data_decoded ,"base64" ,(err) => {
+        function save_image(img, idx) {
+            fs.writeFile(save_dir + "img"+idx+"." + img.type, img.data ,"base64" ,(err) => {
                 if(err) {return console.log(err);}});
-            console.log("saved image");
+            log.i("saved image");
         }
 
         function append_to_cron(append_str) {
@@ -64,7 +115,7 @@ function run(app) {
                 utils.run_shell_cmd(cmd,(err, stdout2, stderr)  => {
                     utils.run_shell_cmd("crontab "+"~/temp",(err, stdout3, stderr)  => {
                         utils.run_shell_cmd("rm ~/temp",(err, stdout4, stderr)  => {
-                            console.log("Sucsessfully installed new crontab.");
+                            log.i("Sucsessfully installed new crontab.");
                         });
                     });
                 });

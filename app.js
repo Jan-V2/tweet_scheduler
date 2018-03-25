@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({limit:"50mb", extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-myserver(app);
+myserver(app, log);
 
 app.use('/', index);
 app.use('/users', users);
@@ -52,10 +52,9 @@ app.use(function(err, req, res, next) {
   console.log(err);
 });
 
-let port = 3000;
-app.listen(3000);
 
-log.e("    Listening on port "+port);
+log.i("    Listening on port 3000");
+
 
 
 module.exports = app;
