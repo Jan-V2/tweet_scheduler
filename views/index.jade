@@ -1,26 +1,29 @@
 extends layout
 
 block content
-    link(rel='stylesheet', href='/stylesheets/timepicki.css')
-    link(rel='stylesheet', href='/stylesheets/index.css')
-    script(src="/javascripts/libs/timepicki.js")
+  .mdl-grid
+    .mdl-cell.mdl-cell--12-col
+      link(rel='stylesheet', href='/stylesheets/timepicki.css')
+      link(rel='stylesheet', href='/stylesheets/index.css')
+      script(src="/javascripts/libs/timepicki.js")
 
-    h1 Tweet scheduler
-    textarea(maxlength=280 rows=4 cols=75 id="tweet_text_input" class="no_resize")
-    div(align="left")
+      h1 Tweet scheduler
+      textarea(maxlength=280 rows=4 cols=75 id="tweet_text_input" class="no_resize")
+      div(align="left")
         div
-            span(id="char_count") 0 characters
+          span(id="char_count") 0 characters
         div
-            input(type="submit" value="submit")
-            button(id="picker_clear") Reset images
-            input(type="file" id="filepicker" multiple=true max=4 accept="image/jpg, image/jpeg, image/png, image/gif")
+          input(type="submit" value="submit")
+          button(id="picker_clear") Reset images
+          input(type="file" id="filepicker" multiple=true max=4 accept="image/jpg, image/jpeg, image/png, image/gif")
         div(id="datetime_picker")
-            div
-                input(type="date" id="date-picker" min='2018-01-01')
-            input(id='timepicker' type='text' name='timepicker' size=1 class="centeralign")
+          div
+            input(type="date" id="date-picker" min='2018-01-01')
+          input(id='timepicker' type='text' name='timepicker' size=1 class="centeralign")
         button(id="but" hidden=true) test
         div(align="center")
-            a(href="/tweets" style="color:hsl(0, 90%, 55%)" ) Goto tweets
+          a(href="/tweets" style="color:hsl(0, 90%, 55%)" ) Goto tweets
 
-    script(src="/javascripts/index.js")
+      script(src="/javascripts/index.js")
+
 

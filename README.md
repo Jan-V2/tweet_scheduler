@@ -5,7 +5,7 @@ I know you can do this in tweetdeck, but i don't like tweetdeck that much..
 Besides i just thought it'd be a fun  project.
 
 ### features
-+ A working website on which you can upload tweets to be automatically send out at time of your choosing.
++ A website on which you can upload tweets to be automatically send out at time of your choosing.
 + The ability to attach a gif or an image(s) to your tweet.
 + A webpage where you can view your scheduled tweets and see when they will be sent out. 
 On this page you can also delete any scheduled tweets.
@@ -48,8 +48,7 @@ Then open your browser and go to `http://localhost:3000/` to access the website.
 I'm done with this project. but if you want to you could still help improve it.
 + It's not crossplatform. it uses cron for scheduling so you'd have to run it on a linux server. 
 So you could add a crossplatform scheduler.
-+ A good looking frontend. It just isn't a priority for me, but if you wanted to turn this 
-into something more serious, you'd have to make it look good.
++ Improving the interface. I just dropped in a basic template, so there is quite a lot of room for impovement.
 + A login system that identifies specific users and safely stores their api keys. 
 It currently only supports 1 user, and he/she has to manually paste their api keys into a file.
 

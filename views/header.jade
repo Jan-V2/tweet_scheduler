@@ -1,0 +1,12 @@
+header.mdl-layout__header
+  .mdl-layout__header-row
+    // Title
+    span.mdl-layout-title
+      | Tweet Scheduler
+    // Add spacer, to align navigation to the right
+    .mdl-layout-spacer
+     Navigation. We hide it in small screens.
+    nav.mdl-navigation.mdl-layout--large-screen-only
+      // i don't know why this is all caps letters in the browser
+      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/') Add tweets
+      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/tweets') View tweets
