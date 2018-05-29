@@ -66,10 +66,6 @@ function init_date_and_time_pickers() {
     }
 }
 
-
-$("document").ready(() => {
-
-
     $("div#main_div").css({
         'width': (text_area.width() + 'px')
     });
@@ -169,8 +165,6 @@ $("document").ready(() => {
                 return true
             }
         }
-
-
 
         function do_post() {
             let data = {
